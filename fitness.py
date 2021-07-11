@@ -1,6 +1,6 @@
 import chess
 from eval_network import *
-from monte_carlo import *
+from monte_carlo_opt import *
 
 def fitness(agents):
     for agent in range(len(agents)-1):
@@ -8,8 +8,7 @@ def fitness(agents):
         board = chess.Board()
         
         other_agents = agents
-        other_agents.remove(agents[agent])
-        player_2 = random.choice(other_agents)
+        player_2 = random.choice(agents)
         
         player_1_idx = agent
         player_2_idx = agents.index(player_2)
@@ -18,20 +17,19 @@ def fitness(agents):
 
         counter = 0
         print('Game Started between Agent',player_1_idx,'and Agent',player_2_idx)
-        while not(board.is_game_over()):
-            print('Move '+str(counter)+'...')
-
-            if counter % 2 == 0:
-                model = player_1.neural_network
-            else:
-                model = player_2.neural_network
+        while counter < 100 and board.is_game_over() == False:
+            model  = player_1.neural_network
 
             def evaluation(input):
-                pred = model.predict(input.reshape(1,8,8,12))
+                pred = model(input.reshape(1,8,8,12))
                 return pred
 
-            move = calculate_move(board,evaluation,epochs = 10,depth = 10)
-            board.push_san(move)
+            move =  monte_carlo_algo(board,evaluation,epochs = 5,depth = 5)
+            game.append(move)
+            
+            model = player_2.neural_network
+            
+            move =  monte_carlo_algo(board,evaluation,epochs = 5,depth = 5)
             game.append(move)
             counter += 1
 

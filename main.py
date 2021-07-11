@@ -2,7 +2,7 @@ from fitness import *
 from genetic_algo import *
 from eval_network import *
 
-eval_model = define_evaluator()
+eval_model = simple_eval()
 tourno_fitness = fitness
 
 ga = genetic_algorithm()

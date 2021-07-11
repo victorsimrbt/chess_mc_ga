@@ -14,7 +14,7 @@ chess_dict = {
     '.' : [0,0,0,0,0,0,0,0,0,0,0,0],
 }
 
-def make_matrix(board): 
+def translate(board): 
     pgn = board.epd()
     foo = []  
     pieces = pgn.split(" ", 1)[0]
@@ -24,17 +24,8 @@ def make_matrix(board):
         for thing in row:
             if thing.isdigit():
                 for i in range(0, int(thing)):
-                    foo2.append('.')
+                    foo2.append(chess_dict['.'])
             else:
-                foo2.append(thing)
+                foo2.append(chess_dict[thing])
         foo.append(foo2)
     return foo
-
-def translate(matrix):
-    rows = []
-    for row in matrix:
-        terms = []
-        for term in row:
-            terms.append(chess_dict[term])
-        rows.append(terms)
-    return rows

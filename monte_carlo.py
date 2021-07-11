@@ -16,7 +16,6 @@ def calculate_move(board,evaluation,epochs = 10,depth = 10):
                     play_board.push_san(move)
                 else:
                     break
-            matrix = make_matrix(play_board.copy())
-            translated = np.array(translate(matrix))
+            translated = np.array(translate(play_board.copy))
             scores[first_move] += evaluation(translated)
     return first_legal_moves[scores.index(max(scores))]
