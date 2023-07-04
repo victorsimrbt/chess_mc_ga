@@ -90,9 +90,10 @@ class genetic_algorithm:
             return agents
         
         loss = []
+        agents = generate_agents(pop_size,model)
         for i in range(generations):
             print('Generation',str(i),':')
-            agents = generate_agents(pop_size,model)
+            
             agents = fitness(agents)
             agents = selection(agents)
             agents = crossover(agents,model,pop_size)
